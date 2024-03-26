@@ -1,0 +1,9 @@
+services:
+  e-majstor-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: e-majstor
+      POSTGRES_PASSWORD: e-majstor
+      POSTGRES_DB: e-majstor
+    ports:
+      - 5438:5432
