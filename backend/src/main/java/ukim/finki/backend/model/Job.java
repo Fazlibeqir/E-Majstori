@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "job")
 @Data
 @NoArgsConstructor
 public class Job {
@@ -12,12 +13,12 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "title",nullable = false)
     private String title;
-
+    @Column(name = "description")
     private String description;
 
-    @Column(nullable = false)
+    @Column(name = "price",nullable = false)
     private double price;
 
     @ManyToOne

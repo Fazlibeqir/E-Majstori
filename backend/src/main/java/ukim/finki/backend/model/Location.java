@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "location")
 @Data
 @NoArgsConstructor
 public class Location{
@@ -13,13 +14,13 @@ public class Location{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "title",nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(name = "description",nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(name = "price",nullable = false)
     private double price;
 
     @ManyToOne
