@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "location")
 @Data
@@ -14,18 +17,18 @@ public class Location{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title",nullable = false)
-    private String title;
+    @Column(name = "city",nullable = false)
+    private String city;
 
-    @Column(name = "description",nullable = false)
-    private String description;
+    @Column(name = "country",nullable = false)
+    private String country;
 
-    @Column(name = "price",nullable = false)
-    private double price;
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    private List<JobProvider> jobProviders;
 
-    @ManyToOne
-    private JobProvider jobProvider;
-
-    @ManyToOne
-    private Category category;
+    public Location(String city, String country) {
+        this.city = city;
+        this.country = country;
+        this.jobProviders = new ArrayList<>();
+    }
 }

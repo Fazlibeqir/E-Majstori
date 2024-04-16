@@ -15,7 +15,8 @@ public class Job {
 
     @Column(name = "title",nullable = false)
     private String title;
-    @Column(name = "description")
+
+    @Column(name = "description", nullable = false)
     private String description;
 
     @Column(name = "price",nullable = false)
@@ -26,4 +27,12 @@ public class Job {
 
     @ManyToOne
     private Category category;
+
+    public Job(String title, String description, double price, JobProvider jobProvider, Category category) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.jobProvider = jobProvider;
+        this.category = category;
+    }
 }

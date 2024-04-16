@@ -25,4 +25,26 @@ public class AppUserServiceImpl implements AppUserService {
     public List<AppUser> findAll() {
         return appUserRepository.findAll();
     }
+
+    @Override
+    public AppUser create(String firstName, String lastName, String username, String email, String password, String phoneNumber) {
+        AppUser user = new AppUser(firstName, lastName, username, email, password, phoneNumber);
+        return appUserRepository.save(user);
+    }
+
+    @Override
+    public AppUser update(Long id, String firstName, String lastName, String username, String email, String password, String phoneNumber) {
+        AppUser user = this.findById(id);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setPhoneNumber(phoneNumber);
+        return appUserRepository.save(user);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        this.appUserRepository.deleteById(id);
+    }
 }

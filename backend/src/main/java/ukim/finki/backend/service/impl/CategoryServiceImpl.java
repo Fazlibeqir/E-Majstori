@@ -25,4 +25,15 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
+
+    @Override
+    public Category create(String name) {
+        return categoryRepository.save(new Category(name));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        if(id != null)
+            categoryRepository.deleteById(id);
+    }
 }

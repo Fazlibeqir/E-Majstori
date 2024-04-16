@@ -26,4 +26,14 @@ public class LocationServiceImpl implements LocationService {
     public List<Location> findAll() {
         return locationRepository.findAll();
     }
+
+    @Override
+    public void deleteById(Long id) {
+        locationRepository.deleteById(id);
+    }
+
+    @Override
+    public Location create(String city, String country) {
+        return locationRepository.save(new Location(city, country));
+    }
 }

@@ -33,4 +33,12 @@ public class AppUser {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    public AppUser(String firstName, String lastName, String username, String email, String password, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
 }

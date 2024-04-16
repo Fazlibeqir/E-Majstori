@@ -2,8 +2,12 @@ package ukim.finki.backend.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ukim.finki.backend.model.Category;
 import ukim.finki.backend.model.Job;
+import ukim.finki.backend.model.JobProvider;
 import ukim.finki.backend.repository.JobRepository;
+import ukim.finki.backend.service.CategoryService;
+import ukim.finki.backend.service.JobProviderService;
 import ukim.finki.backend.service.JobService;
 
 import java.util.List;
@@ -13,7 +17,8 @@ import java.util.List;
 public class JobServiceImpl implements JobService {
 
     private final JobRepository jobRepository;
-
+    private final JobProviderService jobProviderService;
+    private final CategoryService categoryService;
 
     @Override
     public Job findById(Long id) {
@@ -23,5 +28,31 @@ public class JobServiceImpl implements JobService {
     @Override
     public List<Job> findAll() {
         return jobRepository.findAll();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        this.jobRepository.deleteById(id);
+    }
+
+    @Override
+    public Job create(String title, String description, double price, Long jobProviderId, Long categoryId) {
+        JobProvider jobProvider = jobProviderService.findById(jobProviderId);
+        Category category = categoryService.findById(categoryId);
+        Job job = new Job(title, description, price, jobProvider, category);
+        return jobRepository.save(job);
+    }
+
+    @Override
+    public Job update(Long id, String title, String description, double price, Long jobProviderId, Long categoryId) {
+        Job job = this.findById(id);
+        Category category = categoryService.findById(categoryId);
+        JobProvider jobProvider = jobProviderService.findById(jobProviderId);
+        job.setTitle(title);
+        job.setDescription(description);
+        job.setPrice(price);
+        job.setJobProvider(jobProvider);
+        job.setCategory(category);
+        return jobRepository.save(job);
     }
 }
