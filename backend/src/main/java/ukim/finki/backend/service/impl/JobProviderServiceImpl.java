@@ -19,7 +19,6 @@ import java.util.List;
 public class JobProviderServiceImpl implements JobProviderService {
 
     private final JobProviderRepository jobProviderRepository;
-    private final JobService jobService;
     private final LocationService locationService;
 
     @Override
@@ -36,6 +35,15 @@ public class JobProviderServiceImpl implements JobProviderService {
     public JobProvider create(String name, Long locationId) {
         Location location = locationService.findById(locationId);
         return jobProviderRepository.save(new JobProvider(name, location));
+    }
+
+    @Override
+    public JobProvider update(Long id, String name, Long locationId) {
+        JobProvider jobProvider = this.findById(id);
+        Location location = locationService.findById(locationId);
+        jobProvider.setName(name);
+        jobProvider.setLocation(location);
+        return jobProviderRepository.save(jobProvider);
     }
 
     @Override
