@@ -33,7 +33,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Location create(String city, String country) {
-        return locationRepository.save(new Location(city, country));
+    public Location create(String city) {
+        return locationRepository.save(new Location(city));
     }
 }

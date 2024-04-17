@@ -36,12 +36,11 @@ public class LocationController {
     }
 
     @PostMapping("/add-location")
-    public ResponseEntity<Location> addLocation(@RequestParam String city,
-                                                @RequestParam String country) {
-        if(city == null || country == null){
+    public ResponseEntity<Location> addLocation(@RequestParam String city) {
+        if(city == null ){
             return ResponseEntity.badRequest().build();
         }
-        Location location = locationService.create(city, country);
+        Location location = locationService.create(city);
         return ResponseEntity.ok().body(location);
     }
 

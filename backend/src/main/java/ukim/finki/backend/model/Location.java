@@ -20,15 +20,12 @@ public class Location{
     @Column(name = "city",nullable = false)
     private String city;
 
-    @Column(name = "country",nullable = false)
-    private String country;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<JobProvider> jobProviders;
 
-    public Location(String city, String country) {
+    public Location(String city) {
         this.city = city;
-        this.country = country;
         this.jobProviders = new ArrayList<>();
     }
 }

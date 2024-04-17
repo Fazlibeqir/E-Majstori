@@ -20,6 +20,9 @@ public class JobProvider {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @OneToMany(mappedBy = "jobProvider", cascade = CascadeType.ALL)
     private List<Job> jobsOffered;
 
