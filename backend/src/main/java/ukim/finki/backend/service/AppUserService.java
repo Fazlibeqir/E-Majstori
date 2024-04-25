@@ -1,9 +1,9 @@
 package ukim.finki.backend.service;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import ukim.finki.backend.model.AppUser;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AppUserService {
     AppUser findById(Long id);
@@ -11,4 +11,5 @@ public interface AppUserService {
     AppUser create(String firstName, String lastName, String username, String email, String password, String phoneNumber);
     AppUser update(Long id, String firstName, String lastName, String username, String email, String password, String phoneNumber);
     void deleteById(Long id);
+    UserDetails loadUserByEmail(String username);
 }
