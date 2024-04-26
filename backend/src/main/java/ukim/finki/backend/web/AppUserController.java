@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import ukim.finki.backend.model.AppUser;
 import ukim.finki.backend.model.Category;
 import ukim.finki.backend.model.Location;
+import ukim.finki.backend.model.dto.AppUserDTO;
 import ukim.finki.backend.service.AppUserService;
 
 import java.util.List;
@@ -35,17 +36,12 @@ public class AppUserController {
     }
 
     @PostMapping("/add-user")
-    public ResponseEntity<AppUser> addUser(@RequestParam String firstName,
-                                        @RequestParam String lastName,
-                                        @RequestParam String username,
-                                        @RequestParam String email,
-                                        @RequestParam String password,
-                                        @RequestParam String phoneNumber){
-        if(email == null || password == null || firstName == null || lastName == null || username == null){
+    public ResponseEntity<AppUser> addUser(@RequestBody AppUserDTO appUserDTO){
+        if(appUserDTO.getEmail() == null || appUserDTO.getPassword() == null || appUserDTO.getFirstName() == null || appUserDTO.getLastName() == null || appUserDTO.getUsername() == null){
             return  ResponseEntity.notFound().build();
         }
 
-        AppUser appUser = this.appUserService.create(firstName, lastName, username, email, password, phoneNumber);
+        AppUser appUser = this.appUserService.create(appUserDTO.getFirstName(), appUserDTO.getLastName(), appUserDTO.getUsername(), appUserDTO.getEmail(), appUserDTO.getPassword(), appUserDTO.getPhoneNumber());
         return ResponseEntity.ok().body(appUser);
     }
 
