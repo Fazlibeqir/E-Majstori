@@ -8,7 +8,8 @@ import ukim.finki.backend.model.Location;
 import ukim.finki.backend.service.AppUserService;
 
 import java.util.List;
-
+//Ova Za adminot mozebi ke treba da se napravi posebno , za da moze da gi gleda site korisnici
+// i da gi brise i editira
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/api/user")
@@ -35,17 +36,25 @@ public class AppUserController {
     }
 
     @PostMapping("/add-user")
-    public ResponseEntity<AppUser> addUser(@RequestParam String firstName,
+    public ResponseEntity<AppUser> addUser(
+                                        @RequestParam String firstName,
                                         @RequestParam String lastName,
-                                        @RequestParam String username,
+                                        @RequestParam String phoneNumber,
+//                                        @RequestParam String username,
                                         @RequestParam String email,
                                         @RequestParam String password,
-                                        @RequestParam String phoneNumber){
-        if(email == null || password == null || firstName == null || lastName == null || username == null){
+                                        @RequestParam String role){
+        if(email == null || password == null
+                || firstName == null || lastName == null
+//               || username == null
+        ){
             return  ResponseEntity.notFound().build();
         }
 
-        AppUser appUser = this.appUserService.create(firstName, lastName, username, email, password, phoneNumber);
+        AppUser appUser = this.appUserService.create(
+                firstName, lastName,phoneNumber,
+//                username,
+                email, password, role);
         return ResponseEntity.ok().body(appUser);
     }
 
@@ -53,11 +62,14 @@ public class AppUserController {
     public ResponseEntity<AppUser> editUser(@PathVariable Long id,
                                         @RequestParam String firstName,
                                         @RequestParam String lastName,
-                                        @RequestParam String username,
+                                        @RequestParam String phoneNumber,
+//                                        @RequestParam String username,
                                         @RequestParam String email,
                                         @RequestParam String password,
-                                        @RequestParam String phoneNumber){
-        if(email == null || password == null || firstName == null || lastName == null || username == null){
+                                        @RequestParam String role){
+        if(email == null || password == null
+//                || firstName == null || lastName == null || username == null
+        ){
             return  ResponseEntity.notFound().build();
         }
 
@@ -65,7 +77,10 @@ public class AppUserController {
             return ResponseEntity.notFound().build();
         }
 
-        this.appUserService.update(id, firstName, lastName, username, email, password, phoneNumber);
+        this.appUserService.update(id,
+                firstName, lastName,phoneNumber,
+//                username,
+                email, password, role);
             return ResponseEntity.ok().build();
     }
 

@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "app_user")
@@ -25,8 +27,8 @@ public class AppUser implements UserDetails {
     @Column(name = "last_name",nullable = false)
     private String lastName;
 
-    @Column(name = "username",nullable = false)
-    private String username;
+//    @Column(name = "username",nullable = false)
+//    private String username;
 
     @Column(name = "email",nullable = false)
     private String email;
@@ -37,20 +39,31 @@ public class AppUser implements UserDetails {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    public AppUser(String firstName, String lastName, String username, String email, String password, String phoneNumber) {
+    @Column(name = "role")
+    private String role;
+
+    public AppUser(String firstName, String lastName, String phoneNumber,
+//            String username,
+            String email, String password, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
+//        this.username = username;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
-        this.phoneNumber = phoneNumber;
+        this.role = role;
     }
 
     //TODO: ROLES
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return List.of(new SimpleGrantedAuthority(role));
-        return null;
+        return List.of(new SimpleGrantedAuthority(role));
+//        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override

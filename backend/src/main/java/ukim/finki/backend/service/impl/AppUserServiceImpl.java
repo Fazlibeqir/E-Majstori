@@ -30,19 +30,30 @@ public class AppUserServiceImpl implements AppUserService , UserDetailsService {
     }
 
     @Override
-    public AppUser create(String firstName, String lastName, String username, String email, String password, String phoneNumber) {
-        AppUser user = new AppUser(firstName, lastName, username, email, password, phoneNumber);
+    public AppUser create(
+            String firstName, String lastName, String phoneNumber,
+//            String username,
+            String email, String password, String role) {
+        AppUser user = new AppUser(
+                firstName, lastName, phoneNumber,
+//                username,
+                email, password, role);
         return appUserRepository.save(user);
     }
 
     @Override
-    public AppUser update(Long id, String firstName, String lastName, String username, String email, String password, String phoneNumber) {
+    public AppUser update(Long id,
+                          String firstName, String lastName, String phoneNumber,
+//            , String username,
+                          String email, String password,
+                          String role) {
         AppUser user = this.findById(id);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
+//        user.setFirstName(firstName);
+//        user.setLastName(lastName);
         user.setEmail(email);
         user.setPassword(password);
-        user.setPhoneNumber(phoneNumber);
+        user.setRole(role);
+//        user.setPhoneNumber(phoneNumber);
         return appUserRepository.save(user);
     }
 

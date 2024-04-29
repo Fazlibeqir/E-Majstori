@@ -16,7 +16,7 @@ import java.util.function.Function;
 @Component
 public class JWTUtils {
     public SecretKey KEY ;
-    private static  final  long EXPIRATION_TIME = 864_000_000; // 10 days
+    private static  final  long EXPIRATION_TIME = 864000000; // 10 days
 
     public JWTUtils() {
         String secret = "SOMETHING12222222222232131Y28312863812638162";

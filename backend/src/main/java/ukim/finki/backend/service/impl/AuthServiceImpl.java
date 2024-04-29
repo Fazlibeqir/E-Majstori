@@ -31,9 +31,12 @@ public class AuthServiceImpl implements AuthService {
         ReqRes resp = new ReqRes();
         try {
             AppUser ourUsers = new AppUser();
+            ourUsers.setFirstName(registrationRequest.getFirstName());
+            ourUsers.setLastName(registrationRequest.getLastName());
+            ourUsers.setPhoneNumber(registrationRequest.getPhoneNumber());
             ourUsers.setEmail(registrationRequest.getEmail());
             ourUsers.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-//            ourUsers.setRole(registrationRequest.getRole());
+            ourUsers.setRole(registrationRequest.getRole());
             AppUser ourUserResult = appUserRepository.save(ourUsers);
             if (ourUserResult.getId()>0) {
                 resp.setAppUser(ourUserResult);
@@ -55,8 +58,8 @@ public class AuthServiceImpl implements AuthService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signingRequest.getEmail(),signingRequest.getPassword()));
             AppUser user = appUserRepository.findByEmail(signingRequest.getEmail()).orElseThrow();
             System.out.println("USER IS: "+ user);
-            String jwt = jwtUtils.generateToken((UserDetails) user);
-            String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), (UserDetails) user);
+            String jwt = jwtUtils.generateToken(user);
+            String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRefreshToken(refreshToken);
@@ -74,8 +77,8 @@ public class AuthServiceImpl implements AuthService {
         ReqRes response = new ReqRes();
         String ourEmail = jwtUtils.extractUsername(refreshTokenRequest.getToken());
         AppUser users = appUserRepository.findByEmail(ourEmail).orElseThrow();
-        if (jwtUtils.isTokenValid(refreshTokenRequest.getToken(), (UserDetails) users)) {
-            String jwt = jwtUtils.generateToken((UserDetails) users);
+        if (jwtUtils.isTokenValid(refreshTokenRequest.getToken(), users)) {
+            String jwt = jwtUtils.generateToken(users);
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRefreshToken(refreshTokenRequest.getToken());
