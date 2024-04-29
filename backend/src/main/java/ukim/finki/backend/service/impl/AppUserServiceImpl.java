@@ -48,12 +48,12 @@ public class AppUserServiceImpl implements AppUserService , UserDetailsService {
                           String email, String password,
                           String role) {
         AppUser user = this.findById(id);
-//        user.setFirstName(firstName);
-//        user.setLastName(lastName);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
         user.setEmail(email);
         user.setPassword(password);
         user.setRole(role);
-//        user.setPhoneNumber(phoneNumber);
+        user.setPhoneNumber(phoneNumber);
         return appUserRepository.save(user);
     }
 
