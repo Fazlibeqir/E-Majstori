@@ -55,4 +55,15 @@ public class JobServiceImpl implements JobService {
         job.setCategory(category);
         return jobRepository.save(job);
     }
+
+    @Override
+    public void giveGrade(Long id, Double grade) {
+        Job job = this.findById(id);
+        double total_grades = job.getTotal_grades()+grade;
+        int total_number_reviews = job.getNumber_reviews()+1;
+        double new_grade = total_grades/total_number_reviews;
+        job.setGrade(new_grade);
+        job.setTotal_grades(total_grades);
+        job.setNumber_reviews(total_number_reviews);
+    }
 }

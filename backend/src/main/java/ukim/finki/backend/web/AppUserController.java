@@ -3,8 +3,6 @@ package ukim.finki.backend.web;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ukim.finki.backend.model.AppUser;
-import ukim.finki.backend.model.Category;
-import ukim.finki.backend.model.Location;
 import ukim.finki.backend.service.AppUserService;
 
 import java.util.List;

@@ -80,4 +80,16 @@ public class JobController {
         this.jobService.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/grade-job/{id}")
+    public ResponseEntity gradeJob(@PathVariable Long id,
+                                   @RequestParam double grade){
+        if(id == null || jobService.findById(id)==null){
+            return ResponseEntity.notFound().build();
+        }
+        if(grade == 0)
+            return ResponseEntity.badRequest().build();
+        this.jobService.giveGrade(id, grade);
+        return ResponseEntity.ok().build();
+    }
 }

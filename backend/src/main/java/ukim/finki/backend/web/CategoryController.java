@@ -1,14 +1,8 @@
 package ukim.finki.backend.web;
-import java.util.stream.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ukim.finki.backend.model.Category;
-import ukim.finki.backend.model.Location;
 import ukim.finki.backend.service.CategoryService;
-import ukim.finki.backend.service.JobService;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
@@ -28,7 +22,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getLocationById(@PathVariable Long id) {
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         Category category = categoryService.findById(id);
         if (category != null) {
             return ResponseEntity.ok().body(category);
@@ -47,7 +41,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete-category/{id}")
-    public ResponseEntity deleteById(@PathVariable Long id){
+    public ResponseEntity deleteCategory(@PathVariable Long id){
         this.categoryService.deleteById(id);
             return ResponseEntity.ok().build();
     }

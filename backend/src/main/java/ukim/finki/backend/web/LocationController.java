@@ -13,14 +13,14 @@ import java.util.List;
 @RequestMapping("/api/location")
 public class LocationController {
 
-    private LocationService locationService;
+    private final LocationService locationService;
 
     public LocationController(LocationService locationService) {
         this.locationService = locationService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Location>> getAllLocations() {
+    public ResponseEntity<List<Location>> getLocations() {
         List<Location> locations = locationService.findAll();
         return new ResponseEntity<>(locations, HttpStatus.OK);
     }
