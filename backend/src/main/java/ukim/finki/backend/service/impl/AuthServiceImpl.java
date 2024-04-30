@@ -31,12 +31,10 @@ public class AuthServiceImpl implements AuthService {
         ReqRes resp = new ReqRes();
         try {
             AppUser ourUsers = new AppUser();
-            ourUsers.setFirstName(registrationRequest.getFirstName());
-            ourUsers.setLastName(registrationRequest.getLastName());
+            ourUsers.setUsername(registrationRequest.getUsername());
             ourUsers.setPhoneNumber(registrationRequest.getPhoneNumber());
             ourUsers.setEmail(registrationRequest.getEmail());
             ourUsers.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-            ourUsers.setRole(registrationRequest.getRole());
             AppUser ourUserResult = appUserRepository.save(ourUsers);
             if (ourUserResult.getId()>0) {
                 resp.setAppUser(ourUserResult);

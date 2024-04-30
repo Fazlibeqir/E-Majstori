@@ -8,14 +8,8 @@ import java.util.List;
 public interface AppUserService {
     AppUser findById(Long id);
     List<AppUser> findAll();
-    AppUser create(
-            String firstName, String lastName,String phoneNumber,
-//            String username,
-            String email, String password, String role);
-    AppUser update(Long id,
-                   String firstName, String lastName, String phoneNumber,
-//                   String username,
-                   String email, String password, String role);
+    AppUser create(String username,String phoneNumber,String email, String password);
+    AppUser update(Long id,String username, String phoneNumber, String email, String password);
     void deleteById(Long id);
     UserDetails loadUserByEmail(String username);
 }

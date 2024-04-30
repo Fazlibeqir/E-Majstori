@@ -15,12 +15,10 @@ public class ReqRes {
     private String token;
     private String refreshToken;
     private String expirationTime;
-    private String firstName;
-    private String lastName;
+    private String username;
     private String phoneNumber;
     private String email;
     private String role;
     private String password;
-//TODO:   private List<Product> products; JOBS??!!
     private AppUser appUser;
 }
