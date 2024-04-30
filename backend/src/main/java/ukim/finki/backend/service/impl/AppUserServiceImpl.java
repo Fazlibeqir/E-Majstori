@@ -1,5 +1,8 @@
 package ukim.finki.backend.service.impl;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ukim.finki.backend.model.AppUser;
 import ukim.finki.backend.model.dto.AppUserDTO;
@@ -9,7 +12,7 @@ import ukim.finki.backend.service.AppUserService;
 import java.util.List;
 
 @Service
-public class AppUserServiceImpl implements AppUserService {
+public class AppUserServiceImpl implements AppUserService , UserDetailsService {
 
     private final AppUserRepository appUserRepository;
 
@@ -41,11 +44,22 @@ public class AppUserServiceImpl implements AppUserService {
         user.setEmail(appUserDTO.getEmail());
         user.setPassword(appUserDTO.getPassword());
         user.setPhoneNumber(appUserDTO.getPhoneNumber());
+
         return appUserRepository.save(user);
     }
 
     @Override
     public void deleteById(Long id) {
         this.appUserRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByEmail(String username) {
+        return loadUserByUsername(username);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return appUserRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 }

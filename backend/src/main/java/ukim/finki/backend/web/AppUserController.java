@@ -7,7 +7,6 @@ import ukim.finki.backend.model.dto.AppUserDTO;
 import ukim.finki.backend.service.AppUserService;
 
 import java.util.List;
-
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/api/user")
@@ -42,6 +41,7 @@ public class AppUserController {
             return  ResponseEntity.badRequest().build();
         }
         AppUser appUser = this.appUserService.create(appUserDTO);
+
         return ResponseEntity.ok().body(appUser);
     }
 
@@ -58,6 +58,7 @@ public class AppUserController {
             return ResponseEntity.notFound().build();
         }
         this.appUserService.update(id, appUserDTO);
+
             return ResponseEntity.ok().build();
     }
 
