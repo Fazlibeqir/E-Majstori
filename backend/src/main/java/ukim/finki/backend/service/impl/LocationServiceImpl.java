@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ukim.finki.backend.model.Job;
 import ukim.finki.backend.model.Location;
+import ukim.finki.backend.model.dto.LocationDTO;
 import ukim.finki.backend.repository.JobRepository;
 import ukim.finki.backend.repository.LocationRepository;
 import ukim.finki.backend.service.LocationService;
@@ -33,7 +34,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Location create(String city) {
-        return locationRepository.save(new Location(city));
+    public Location create(LocationDTO locationDTO) {
+        return locationRepository.save(new Location(locationDTO.getCity()));
     }
 }

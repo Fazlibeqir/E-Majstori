@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ukim.finki.backend.model.Category;
 import ukim.finki.backend.model.Job;
 import ukim.finki.backend.model.JobProvider;
+import ukim.finki.backend.model.dto.JobDTO;
 import ukim.finki.backend.repository.JobRepository;
 import ukim.finki.backend.service.CategoryService;
 import ukim.finki.backend.service.JobProviderService;
@@ -36,21 +37,21 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job create(String title, String description, double price, Long jobProviderId, Long categoryId) {
-        JobProvider jobProvider = jobProviderService.findById(jobProviderId);
-        Category category = categoryService.findById(categoryId);
-        Job job = new Job(title, description, price, jobProvider, category);
+    public Job create(JobDTO jobDTO) {
+        JobProvider jobProvider = jobProviderService.findById(jobDTO.getJobProviderId());
+        Category category = categoryService.findById(jobDTO.getCategoryId());
+        Job job = new Job(jobDTO.getTitle(), jobDTO.getDescription(), jobDTO.getPrice(), jobProvider, category);
         return jobRepository.save(job);
     }
 
     @Override
-    public Job update(Long id, String title, String description, double price, Long jobProviderId, Long categoryId) {
+    public Job update(Long id, JobDTO jobDTO) {
         Job job = this.findById(id);
-        Category category = categoryService.findById(categoryId);
-        JobProvider jobProvider = jobProviderService.findById(jobProviderId);
-        job.setTitle(title);
-        job.setDescription(description);
-        job.setPrice(price);
+        Category category = categoryService.findById(jobDTO.getCategoryId());
+        JobProvider jobProvider = jobProviderService.findById(jobDTO.getJobProviderId());
+        job.setTitle(jobDTO.getTitle());
+        job.setDescription(jobDTO.getDescription());
+        job.setPrice(jobDTO.getPrice());
         job.setJobProvider(jobProvider);
         job.setCategory(category);
         return jobRepository.save(job);

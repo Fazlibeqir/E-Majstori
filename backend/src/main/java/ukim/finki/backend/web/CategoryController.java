@@ -2,6 +2,7 @@ package ukim.finki.backend.web;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ukim.finki.backend.model.Category;
+import ukim.finki.backend.model.dto.CategoryDTO;
 import ukim.finki.backend.service.CategoryService;
 
 import java.util.List;
@@ -32,11 +33,14 @@ public class CategoryController {
     }
 
     @PostMapping("/add-category")
-    public ResponseEntity<Category> addCategory(@RequestParam String name){
-        if(name == null){
+    public ResponseEntity<Category> addCategory(@RequestBody CategoryDTO categoryDTO){
+        if(categoryDTO == null){
             return ResponseEntity.badRequest().build();
         }
-         this.categoryService.create(name);
+        if(categoryDTO.getName() == null){
+            return ResponseEntity.badRequest().build();
+        }
+         this.categoryService.create(categoryDTO);
             return ResponseEntity.ok().build();
     }
 

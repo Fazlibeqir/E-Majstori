@@ -2,6 +2,7 @@ package ukim.finki.backend.service.impl;
 
 import org.springframework.stereotype.Service;
 import ukim.finki.backend.model.Category;
+import ukim.finki.backend.model.dto.CategoryDTO;
 import ukim.finki.backend.repository.CategoryRepository;
 import ukim.finki.backend.service.CategoryService;
 
@@ -27,8 +28,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category create(String name) {
-        return categoryRepository.save(new Category(name));
+    public Category create(CategoryDTO categoryDTO) {
+        return categoryRepository.save(new Category(categoryDTO.getName()));
     }
 
     @Override

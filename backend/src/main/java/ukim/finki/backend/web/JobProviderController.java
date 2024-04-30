@@ -3,6 +3,7 @@ package ukim.finki.backend.web;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ukim.finki.backend.model.JobProvider;
+import ukim.finki.backend.model.dto.JobProviderDTO;
 import ukim.finki.backend.service.JobProviderService;
 
 import java.util.List;
@@ -33,26 +34,30 @@ public class JobProviderController {
     }
 
     @PostMapping("/add-jobProvider")
-    public ResponseEntity<JobProvider> addJobProvider(@RequestParam String name,
-                                                      @RequestParam Long locationId){
-        if(name == null || locationId == null){
+    public ResponseEntity<JobProvider> addJobProvider(@RequestBody JobProviderDTO jobProviderDTO){
+        if(jobProviderDTO == null){
             return ResponseEntity.badRequest().build();
         }
-        JobProvider jobProvider = this.jobProviderService.create(name, locationId);
+        if(jobProviderDTO.getName() == null || jobProviderDTO.getLocationId() == null){
+            return ResponseEntity.badRequest().build();
+        }
+        JobProvider jobProvider = this.jobProviderService.create(jobProviderDTO);
         return ResponseEntity.ok().body(jobProvider);
     }
 
     @PostMapping("/edit-jobProvider/{id}")
     public ResponseEntity<JobProvider> editJobProvider(@PathVariable Long id,
-                                                       @RequestParam String name,
-                                                       @RequestParam Long locationId){
-        if(name == null || locationId == null){
+                                                       @RequestBody JobProviderDTO jobProviderDTO){
+        if(jobProviderDTO == null){
+            return ResponseEntity.badRequest().build();
+        }
+        if(jobProviderDTO.getName() == null || jobProviderDTO.getLocationId() == null){
             return ResponseEntity.badRequest().build();
         }
         if(id == null || this.jobProviderService.findById(id) == null){
             return ResponseEntity.notFound().build();
         }
-        JobProvider jobProvider = this.jobProviderService.findById(id);
+        JobProvider jobProvider = this.jobProviderService.update(id, jobProviderDTO);
         return ResponseEntity.ok().body(jobProvider);
     }
 

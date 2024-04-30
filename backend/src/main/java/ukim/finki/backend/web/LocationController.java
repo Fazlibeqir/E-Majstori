@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ukim.finki.backend.model.Location;
+import ukim.finki.backend.model.dto.LocationDTO;
 import ukim.finki.backend.service.LocationService;
 
 import java.util.List;
@@ -36,11 +37,14 @@ public class LocationController {
     }
 
     @PostMapping("/add-location")
-    public ResponseEntity<Location> addLocation(@RequestParam String city) {
-        if(city == null ){
+    public ResponseEntity<Location> addLocation(@RequestBody LocationDTO locationDTO) {
+        if(locationDTO == null){
             return ResponseEntity.badRequest().build();
         }
-        Location location = locationService.create(city);
+        if(locationDTO.getCity() == null){
+            return ResponseEntity.badRequest().build();
+        }
+        Location location = locationService.create(locationDTO);
         return ResponseEntity.ok().body(location);
     }
 

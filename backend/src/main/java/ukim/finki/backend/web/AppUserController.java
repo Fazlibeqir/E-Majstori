@@ -3,6 +3,7 @@ package ukim.finki.backend.web;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ukim.finki.backend.model.AppUser;
+import ukim.finki.backend.model.dto.AppUserDTO;
 import ukim.finki.backend.service.AppUserService;
 
 import java.util.List;
@@ -33,37 +34,30 @@ public class AppUserController {
     }
 
     @PostMapping("/add-user")
-    public ResponseEntity<AppUser> addUser(@RequestParam String firstName,
-                                        @RequestParam String lastName,
-                                        @RequestParam String username,
-                                        @RequestParam String email,
-                                        @RequestParam String password,
-                                        @RequestParam String phoneNumber){
-        if(email == null || password == null || firstName == null || lastName == null || username == null){
-            return  ResponseEntity.notFound().build();
+    public ResponseEntity<AppUser> addUser(@RequestBody AppUserDTO appUserDTO){
+        if(appUserDTO == null){
+            return ResponseEntity.badRequest().build();
         }
-
-        AppUser appUser = this.appUserService.create(firstName, lastName, username, email, password, phoneNumber);
+        if(appUserDTO.getEmail() == null || appUserDTO.getUsername() == null || appUserDTO.getPassword() == null){
+            return  ResponseEntity.badRequest().build();
+        }
+        AppUser appUser = this.appUserService.create(appUserDTO);
         return ResponseEntity.ok().body(appUser);
     }
 
     @PostMapping("/edit-user/{id}")
     public ResponseEntity<AppUser> editUser(@PathVariable Long id,
-                                        @RequestParam String firstName,
-                                        @RequestParam String lastName,
-                                        @RequestParam String username,
-                                        @RequestParam String email,
-                                        @RequestParam String password,
-                                        @RequestParam String phoneNumber){
-        if(email == null || password == null || firstName == null || lastName == null || username == null){
-            return  ResponseEntity.notFound().build();
+                                        @RequestBody AppUserDTO appUserDTO){
+        if(appUserDTO == null){
+            return ResponseEntity.badRequest().build();
         }
-
+        if(appUserDTO.getEmail() == null || appUserDTO.getUsername() == null || appUserDTO.getPassword() == null){
+            return  ResponseEntity.badRequest().build();
+        }
         if(id == null || appUserService.findById(id) == null){
             return ResponseEntity.notFound().build();
         }
-
-        this.appUserService.update(id, firstName, lastName, username, email, password, phoneNumber);
+        this.appUserService.update(id, appUserDTO);
             return ResponseEntity.ok().build();
     }
 
@@ -72,7 +66,6 @@ public class AppUserController {
         if(id == null || appUserService.findById(id) == null){
             return ResponseEntity.notFound().build();
         }
-
         this.appUserService.deleteById(id);
             return ResponseEntity.ok().build();
     }

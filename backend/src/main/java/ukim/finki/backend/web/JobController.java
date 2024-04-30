@@ -3,6 +3,7 @@ package ukim.finki.backend.web;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ukim.finki.backend.model.Job;
+import ukim.finki.backend.model.dto.JobDTO;
 import ukim.finki.backend.service.CategoryService;
 import ukim.finki.backend.service.JobProviderService;
 import ukim.finki.backend.service.JobService;
@@ -24,7 +25,7 @@ public class JobController {
     }
 
     @GetMapping
-    public List<Job> getJobs(){
+    public List<Job> getJobs() {
         return this.jobService.findAll();
     }
 
@@ -39,42 +40,40 @@ public class JobController {
     }
 
     @PostMapping("/add-job")
-    public ResponseEntity<Job> addJob(@RequestParam String title,
-                                        @RequestParam String description,
-                                        @RequestParam double price,
-                                        @RequestParam Long jobProviderId,
-                                        @RequestParam Long categoryId){
-        if(title == null || description == null || price == 0 || jobProviderId == null || categoryId == null){
-            return  ResponseEntity.badRequest().build();
+    public ResponseEntity<Job> addJob(@RequestBody JobDTO jobDTO) {
+        if(jobDTO == null){
+            return ResponseEntity.badRequest().build();
         }
-        if(jobProviderService.findById(jobProviderId) == null || categoryService.findById(categoryId) == null){
-            return ResponseEntity. notFound().build();
+        if (jobDTO.getTitle() == null || jobDTO.getDescription() == null || jobDTO.getPrice() == 0 || jobDTO.getJobProviderId() == null || jobDTO.getCategoryId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (jobProviderService.findById(jobDTO.getJobProviderId()) == null || categoryService.findById(jobDTO.getCategoryId()) == null) {
+            return ResponseEntity.notFound().build();
         }
 
-        Job job = this.jobService.create(title, description, price, jobProviderId, categoryId);
+        Job job = this.jobService.create(jobDTO);
         return ResponseEntity.ok().body(job);
     }
 
     @PostMapping("/edit-job/{id}")
     public ResponseEntity<Job> editJob(@PathVariable Long id,
-                                       @RequestParam String title,
-                                       @RequestParam String description,
-                                       @RequestParam double price,
-                                       @RequestParam Long jobProviderId,
-                                       @RequestParam Long categoryId){
-        if(id == null || title == null || description == null || price == 0){
-            return  ResponseEntity.badRequest().build();
+                                       @RequestBody JobDTO jobDTO) {
+        if(jobDTO == null){
+            return ResponseEntity.badRequest().build();
         }
-        if(jobProviderService.findById(jobProviderId) == null || categoryService.findById(categoryId) == null){
-            return ResponseEntity. notFound().build();
+        if (id == null || jobDTO.getTitle() == null || jobDTO.getDescription() == null || jobDTO.getPrice() == 0) {
+            return ResponseEntity.badRequest().build();
         }
-        Job job = this.jobService.update(id, title, description, price, jobProviderId, categoryId);
+        if (jobProviderService.findById(jobDTO.getJobProviderId()) == null || categoryService.findById(jobDTO.getCategoryId()) == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Job job = this.jobService.update(id, jobDTO);
         return ResponseEntity.ok().body(job);
     }
 
     @PostMapping("/delete-job/{id}")
-    public ResponseEntity deleteJob(@PathVariable Long id){
-        if(id == null || jobService.findById(id) == null){
+    public ResponseEntity deleteJob(@PathVariable Long id) {
+        if (id == null || jobService.findById(id) == null) {
             return ResponseEntity.notFound().build();
         }
         this.jobService.deleteById(id);
@@ -83,11 +82,11 @@ public class JobController {
 
     @PostMapping("/grade-job/{id}")
     public ResponseEntity gradeJob(@PathVariable Long id,
-                                   @RequestParam double grade){
-        if(id == null || jobService.findById(id)==null){
+                                   @RequestParam double grade) {
+        if (id == null || jobService.findById(id) == null) {
             return ResponseEntity.notFound().build();
         }
-        if(grade == 0)
+        if (grade == 0)
             return ResponseEntity.badRequest().build();
         this.jobService.giveGrade(id, grade);
         return ResponseEntity.ok().build();

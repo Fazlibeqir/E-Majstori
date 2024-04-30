@@ -1,13 +1,14 @@
 package ukim.finki.backend.service;
 
 import ukim.finki.backend.model.JobProvider;
+import ukim.finki.backend.model.dto.JobProviderDTO;
 
 import java.util.List;
 
 public interface JobProviderService {
     JobProvider findById(Long id);
     List<JobProvider> findAll();
-    JobProvider create(String name, Long locationId);
-    JobProvider update(Long id, String name, Long locationId);
+    JobProvider create(JobProviderDTO jobProviderDTO);
+    JobProvider update(Long id, JobProviderDTO jobProviderDTO);
     void deleteById(Long id);
 }

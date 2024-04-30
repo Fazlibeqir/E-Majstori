@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS public.job
     title           VARCHAR(255) NOT NULL,
     description     TEXT,
     price           DOUBLE PRECISION NOT NULL,
-    grade           DOUBLE,
-    total_grades    DOUBLE,
+    grade           DOUBLE PRECISION,
+    total_grades    DOUBLE PRECISION,
     number_reviews  INT,
     job_provider_id BIGINT,
     category_id     BIGINT REFERENCES public.category (id)

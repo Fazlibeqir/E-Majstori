@@ -2,6 +2,7 @@ package ukim.finki.backend.service.impl;
 
 import org.springframework.stereotype.Service;
 import ukim.finki.backend.model.AppUser;
+import ukim.finki.backend.model.dto.AppUserDTO;
 import ukim.finki.backend.repository.AppUserRepository;
 import ukim.finki.backend.service.AppUserService;
 
@@ -27,19 +28,19 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public AppUser create(String firstName, String lastName, String username, String email, String password, String phoneNumber) {
-        AppUser user = new AppUser(firstName, lastName, username, email, password, phoneNumber);
+    public AppUser create(AppUserDTO appUserDTO) {
+        this.appUserRepository.deleteByUsername(appUserDTO.getUsername());
+        AppUser user = new AppUser(appUserDTO.getUsername(), appUserDTO.getEmail(), appUserDTO.getPassword(), appUserDTO.getPhoneNumber());
         return appUserRepository.save(user);
     }
 
     @Override
-    public AppUser update(Long id, String firstName, String lastName, String username, String email, String password, String phoneNumber) {
+    public AppUser update(Long id, AppUserDTO appUserDTO) {
         AppUser user = this.findById(id);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setPhoneNumber(phoneNumber);
+        user.setUsername(appUserDTO.getUsername());
+        user.setEmail(appUserDTO.getEmail());
+        user.setPassword(appUserDTO.getPassword());
+        user.setPhoneNumber(appUserDTO.getPhoneNumber());
         return appUserRepository.save(user);
     }
 

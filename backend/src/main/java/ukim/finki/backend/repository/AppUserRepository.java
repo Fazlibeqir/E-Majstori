@@ -6,5 +6,5 @@ import ukim.finki.backend.model.AppUser;
 
 @Repository
 public interface AppUserRepository extends JpaRepository<AppUser, Long> {
-
+    void deleteByUsername(String username);
 }

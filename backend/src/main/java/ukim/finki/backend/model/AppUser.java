@@ -15,12 +15,6 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first_name",nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name",nullable = false)
-    private String lastName;
-
     @Column(name = "username",nullable = false)
     private String username;
 
@@ -33,9 +27,7 @@ public class AppUser {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    public AppUser(String firstName, String lastName, String username, String email, String password, String phoneNumber) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public AppUser(String username, String email, String password, String phoneNumber) {
         this.username = username;
         this.email = email;
         this.password = password;

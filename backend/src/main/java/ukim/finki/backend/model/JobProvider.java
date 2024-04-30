@@ -3,6 +3,7 @@ package ukim.finki.backend.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,9 @@ public class JobProvider {
     @ManyToOne
     private Location location;
 
-    public JobProvider(String name, Location location) {
+    public JobProvider(String name, String description, Location location) {
         this.name = name;
+        this.description = description;
         this.location = location;
         this.jobsOffered = new ArrayList<>();
     }

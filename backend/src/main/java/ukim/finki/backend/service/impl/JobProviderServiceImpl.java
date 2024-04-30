@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ukim.finki.backend.model.Job;
 import ukim.finki.backend.model.JobProvider;
 import ukim.finki.backend.model.Location;
+import ukim.finki.backend.model.dto.JobProviderDTO;
 import ukim.finki.backend.repository.JobProviderRepository;
 import ukim.finki.backend.repository.JobRepository;
 import ukim.finki.backend.repository.LocationRepository;
@@ -32,16 +33,17 @@ public class JobProviderServiceImpl implements JobProviderService {
     }
 
     @Override
-    public JobProvider create(String name, Long locationId) {
-        Location location = locationService.findById(locationId);
-        return jobProviderRepository.save(new JobProvider(name, location));
+    public JobProvider create(JobProviderDTO jobProviderDTO) {
+        Location location = locationService.findById(jobProviderDTO.getLocationId());
+        return jobProviderRepository.save(new JobProvider(jobProviderDTO.getName(), jobProviderDTO.getDescription(), location));
     }
 
     @Override
-    public JobProvider update(Long id, String name, Long locationId) {
+    public JobProvider update(Long id, JobProviderDTO jobProviderDTO) {
         JobProvider jobProvider = this.findById(id);
-        Location location = locationService.findById(locationId);
-        jobProvider.setName(name);
+        Location location = locationService.findById(jobProviderDTO.getLocationId());
+        jobProvider.setName(jobProviderDTO.getName());
+        jobProvider.setDescription(jobProviderDTO.getDescription());
         jobProvider.setLocation(location);
         return jobProviderRepository.save(jobProvider);
     }

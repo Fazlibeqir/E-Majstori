@@ -20,7 +20,6 @@ public class Location{
     @Column(name = "city",nullable = false)
     private String city;
 
-
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<JobProvider> jobProviders;
 
