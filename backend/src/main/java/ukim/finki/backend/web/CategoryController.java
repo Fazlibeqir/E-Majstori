@@ -8,7 +8,6 @@ import ukim.finki.backend.service.CategoryService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/api/category")
 public class CategoryController {
     private final CategoryService categoryService;

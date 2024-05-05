@@ -11,7 +11,6 @@ import ukim.finki.backend.service.JobService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/api/job")
 public class JobController {
     private final JobService jobService;

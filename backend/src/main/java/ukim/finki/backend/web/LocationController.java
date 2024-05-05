@@ -10,7 +10,6 @@ import ukim.finki.backend.service.LocationService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/api/location")
 public class LocationController {
 

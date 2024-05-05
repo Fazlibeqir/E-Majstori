@@ -19,6 +19,9 @@ public class Category {
     @Column(name = "name",nullable = false)
     private String name;
 
+    @Column(name = "image",nullable = false)
+    private String imageUrl;
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Job> jobs;
 

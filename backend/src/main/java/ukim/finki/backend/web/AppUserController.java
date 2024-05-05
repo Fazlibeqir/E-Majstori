@@ -8,7 +8,6 @@ import ukim.finki.backend.service.AppUserService;
 
 import java.util.List;
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000"})
 @RequestMapping("/api/user")
 public class AppUserController {
     private final AppUserService appUserService;

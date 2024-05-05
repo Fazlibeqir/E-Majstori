@@ -9,6 +9,8 @@ import java.util.List;
 @Data
 public class CategoryDTO {
     private String name;
+    private String imageUrl;
+
 
     public CategoryDTO() {
     }
