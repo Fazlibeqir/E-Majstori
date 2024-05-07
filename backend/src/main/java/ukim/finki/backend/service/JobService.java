@@ -1,12 +1,9 @@
 package ukim.finki.backend.service;
 
-import ukim.finki.backend.model.Category;
 import ukim.finki.backend.model.Job;
-import ukim.finki.backend.model.JobProvider;
 import ukim.finki.backend.model.dto.JobDTO;
 
 import java.util.List;
-import java.util.function.DoubleBinaryOperator;
 
 public interface JobService {
     Job findById(Long id);

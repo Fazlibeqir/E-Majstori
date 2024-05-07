@@ -9,7 +9,7 @@ import ukim.finki.backend.model.dto.ReqRes;
 import ukim.finki.backend.service.AuthService;
 
 @RestController
-@RequestMapping("/api/auth")//Or JUST @RequestMapping("/auth")??
+@RequestMapping("/api/auth")
 public class AuthController {
     private final AuthService authService;
 

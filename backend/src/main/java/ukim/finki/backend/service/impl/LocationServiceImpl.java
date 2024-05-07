@@ -2,10 +2,8 @@ package ukim.finki.backend.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ukim.finki.backend.model.Job;
 import ukim.finki.backend.model.Location;
 import ukim.finki.backend.model.dto.LocationDTO;
-import ukim.finki.backend.repository.JobRepository;
 import ukim.finki.backend.repository.LocationRepository;
 import ukim.finki.backend.service.LocationService;
 

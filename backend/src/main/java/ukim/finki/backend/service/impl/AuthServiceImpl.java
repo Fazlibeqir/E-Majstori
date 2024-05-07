@@ -2,7 +2,6 @@ package ukim.finki.backend.service.impl;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ukim.finki.backend.configs.JWTUtils;
@@ -19,7 +18,8 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public AuthServiceImpl(AppUserRepository appUserRepository, JWTUtils jwtUtils, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public AuthServiceImpl(AppUserRepository appUserRepository, JWTUtils jwtUtils,
+                           PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.appUserRepository = appUserRepository;
         this.jwtUtils = jwtUtils;
         this.passwordEncoder = passwordEncoder;
@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signingRequest.getEmail(),signingRequest.getPassword()));
             AppUser user = appUserRepository.findByEmail(signingRequest.getEmail()).orElseThrow();
-            System.out.println("USER IS: "+ user);
+            System.out.println("USER IS: "+ user);//TODO Remove this line
             String jwt = jwtUtils.generateToken(user);
             String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);

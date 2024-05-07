@@ -32,7 +32,7 @@ public class AppUserServiceImpl implements AppUserService , UserDetailsService {
 
     @Override
     public AppUser create(AppUserDTO appUserDTO) {
-        this.appUserRepository.deleteByUsername(appUserDTO.getUsername());
+        this.appUserRepository.deleteByUsername(appUserDTO.getUsername());// Why ?
         AppUser user = new AppUser(appUserDTO.getUsername(), appUserDTO.getEmail(), appUserDTO.getPassword(), appUserDTO.getPhoneNumber());
         return appUserRepository.save(user);
     }

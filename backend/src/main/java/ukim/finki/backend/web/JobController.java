@@ -2,6 +2,7 @@ package ukim.finki.backend.web;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ukim.finki.backend.model.Category;
 import ukim.finki.backend.model.Job;
 import ukim.finki.backend.model.dto.JobDTO;
 import ukim.finki.backend.service.CategoryService;
@@ -9,6 +10,7 @@ import ukim.finki.backend.service.JobProviderService;
 import ukim.finki.backend.service.JobService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/job")
@@ -46,12 +48,18 @@ public class JobController {
         if (jobDTO.getTitle() == null || jobDTO.getDescription() == null || jobDTO.getPrice() == 0 || jobDTO.getJobProviderId() == null || jobDTO.getCategoryId() == null) {
             return ResponseEntity.badRequest().build();
         }
-        if (jobProviderService.findById(jobDTO.getJobProviderId()) == null || categoryService.findById(jobDTO.getCategoryId()) == null) {
-            return ResponseEntity.notFound().build();
-        }
+        if (isJobProviderNull(jobDTO)) return ResponseEntity.notFound().build();
 
         Job job = this.jobService.create(jobDTO);
         return ResponseEntity.ok().body(job);
+    }
+
+    private boolean isJobProviderNull(@RequestBody JobDTO jobDTO) {
+        if (jobProviderService.findById(jobDTO.getJobProviderId()) == null) {
+            return true;
+        }
+        List<Category> categories =jobDTO.getCategoryId().stream().map(categoryService::findById).collect(Collectors.toList());
+        return categories.isEmpty();
     }
 
     @PostMapping("/edit-job/{id}")
@@ -63,9 +71,7 @@ public class JobController {
         if (id == null || jobDTO.getTitle() == null || jobDTO.getDescription() == null || jobDTO.getPrice() == 0) {
             return ResponseEntity.badRequest().build();
         }
-        if (jobProviderService.findById(jobDTO.getJobProviderId()) == null || categoryService.findById(jobDTO.getCategoryId()) == null) {
-            return ResponseEntity.notFound().build();
-        }
+        if (isJobProviderNull(jobDTO)) return ResponseEntity.notFound().build();
         Job job = this.jobService.update(id, jobDTO);
         return ResponseEntity.ok().body(job);
     }

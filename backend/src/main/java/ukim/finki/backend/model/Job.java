@@ -1,8 +1,13 @@
 package ukim.finki.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ukim.finki.backend.model.relations.JobCategory;
+
+import java.util.List;
 
 @Entity
 @Table(name = "job")
@@ -11,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long job_id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -32,12 +37,15 @@ public class Job {
     private int number_reviews;
 
     @ManyToOne
+    @JsonIgnoreProperties("jobsOffered")
     private JobProvider jobProvider;
 
-    @ManyToOne
-    private Category category;
+    @OneToMany(mappedBy = "job_id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @JsonIgnoreProperties("jobs")
+    private List<JobCategory> category;
 
-    public Job(String title, String description, double price, JobProvider jobProvider, Category category) {
+    public Job(String title, String description, double price, JobProvider jobProvider, List<JobCategory> category) {
         this.title = title;
         this.description = description;
         this.price = price;

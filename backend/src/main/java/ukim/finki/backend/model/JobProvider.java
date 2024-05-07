@@ -1,9 +1,9 @@
 package ukim.finki.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.List;
 public class JobProvider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -25,9 +24,11 @@ public class JobProvider {
     private String description;
 
     @OneToMany(mappedBy = "jobProvider", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("jobProvider")
     private List<Job> jobsOffered;
 
     @ManyToOne
+    @JsonIgnoreProperties("jobProviders")
     private Location location;
 
     public JobProvider(String name, String description, Location location) {

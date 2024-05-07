@@ -1,10 +1,8 @@
 package ukim.finki.backend.model.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
-import ukim.finki.backend.model.Category;
-import ukim.finki.backend.model.JobProvider;
+
+import java.util.List;
 
 @Data
 public class JobDTO {
@@ -15,12 +13,12 @@ public class JobDTO {
     private double total_grades;
     private int number_reviews;
     private Long jobProviderId;
-    private Long categoryId;
+    private List<Long> categoryId;
 
     public JobDTO() {
     }
 
-    public JobDTO(String title, String description, double price, Long jobProviderId, Long categoryId) {
+    public JobDTO(String title, String description, double price, Long jobProviderId, List<Long> categoryId) {
         this.title = title;
         this.description = description;
         this.price = price;

@@ -1,6 +1,5 @@
 package ukim.finki.backend.model.dto;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data

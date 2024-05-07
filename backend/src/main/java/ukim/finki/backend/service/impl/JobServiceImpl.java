@@ -6,12 +6,15 @@ import ukim.finki.backend.model.Category;
 import ukim.finki.backend.model.Job;
 import ukim.finki.backend.model.JobProvider;
 import ukim.finki.backend.model.dto.JobDTO;
+import ukim.finki.backend.model.relations.JobCategory;
 import ukim.finki.backend.repository.JobRepository;
 import ukim.finki.backend.service.CategoryService;
 import ukim.finki.backend.service.JobProviderService;
 import ukim.finki.backend.service.JobService;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -39,7 +42,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public Job create(JobDTO jobDTO) {
         JobProvider jobProvider = jobProviderService.findById(jobDTO.getJobProviderId());
-        Category category = categoryService.findById(jobDTO.getCategoryId());
+        List<JobCategory> category = Collections.singletonList((JobCategory) jobDTO.getCategoryId().stream().map(categoryService::findById).collect(Collectors.toList()));
         Job job = new Job(jobDTO.getTitle(), jobDTO.getDescription(), jobDTO.getPrice(), jobProvider, category);
         return jobRepository.save(job);
     }
@@ -47,7 +50,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public Job update(Long id, JobDTO jobDTO) {
         Job job = this.findById(id);
-        Category category = categoryService.findById(jobDTO.getCategoryId());
+        List<JobCategory> category = Collections.singletonList((JobCategory) jobDTO.getCategoryId().stream().map(categoryService::findById).collect(Collectors.toList()));
         JobProvider jobProvider = jobProviderService.findById(jobDTO.getJobProviderId());
         job.setTitle(jobDTO.getTitle());
         job.setDescription(jobDTO.getDescription());

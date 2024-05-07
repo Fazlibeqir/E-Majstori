@@ -1,5 +1,6 @@
 package ukim.finki.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Location{
     private String city;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("location")
     private List<JobProvider> jobProviders;
 
     public Location(String city) {
