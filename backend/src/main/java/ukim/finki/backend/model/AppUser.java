@@ -40,7 +40,6 @@ public class AppUser implements UserDetails {
         this.password = password;
     }
 
-    //TODO: ROLES
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("USER"));

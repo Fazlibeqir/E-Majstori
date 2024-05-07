@@ -22,7 +22,7 @@ public class Category {
     @Column(name = "image",nullable = false)
     private String imageUrl;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Job> jobs;
 
     public Category(String name) {

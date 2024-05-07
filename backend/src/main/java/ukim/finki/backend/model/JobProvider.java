@@ -24,7 +24,7 @@ public class JobProvider {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "jobProvider", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jobProvider", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Job> jobsOffered;
 
     @ManyToOne

@@ -20,7 +20,7 @@ public class Location{
     @Column(name = "city",nullable = false)
     private String city;
 
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<JobProvider> jobProviders;
 
     public Location(String city) {
