@@ -2,6 +2,7 @@ package ukim.finki.backend.web;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ukim.finki.backend.model.Category;
+import ukim.finki.backend.model.Job;
 import ukim.finki.backend.model.dto.CategoryDTO;
 import ukim.finki.backend.service.CategoryService;
 
@@ -29,6 +30,11 @@ public class CategoryController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/{id}/jobs")
+    public ResponseEntity<List<Job>> getAllJobsByCategory(@PathVariable Long id){
+        List<Job> jobs= categoryService.findAllJobsByCategory(id);
+        return ResponseEntity.ok(jobs);
     }
 
     @PostMapping("/add-category")
