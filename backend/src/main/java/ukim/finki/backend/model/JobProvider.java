@@ -20,6 +20,12 @@ public class JobProvider {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "image")
+    private String imageUrl;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
     @Column(name = "description")
     private String description;
 

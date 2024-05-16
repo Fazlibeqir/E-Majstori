@@ -45,7 +45,7 @@ public class JobController {
         if(jobDTO == null){
             return ResponseEntity.badRequest().build();
         }
-        if (jobDTO.getTitle() == null || jobDTO.getDescription() == null || jobDTO.getPrice() == 0 || jobDTO.getJobProviderId() == null || jobDTO.getCategoryId() == null) {
+        if (jobDTO.getTitle() == null || jobDTO.getDescription() == null || jobDTO.getPrice() == 0 || jobDTO.getCategoryId() == null) {
             return ResponseEntity.badRequest().build();
         }
         if (isJobProviderNull(jobDTO)) return ResponseEntity.notFound().build();
