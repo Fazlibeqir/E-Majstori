@@ -1,6 +1,7 @@
 package ukim.finki.backend.service;
 
 import ukim.finki.backend.model.JobProvider;
+import ukim.finki.backend.model.dto.JobDTO;
 import ukim.finki.backend.model.dto.JobProviderDTO;
 
 import java.util.List;

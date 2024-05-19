@@ -23,9 +23,6 @@ public class JobProvider {
     @Column(name = "image")
     private String imageUrl;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
     @Column(name = "description")
     private String description;
 
@@ -36,6 +33,11 @@ public class JobProvider {
     @ManyToOne
     @JsonIgnoreProperties("jobProviders")
     private Location location;
+
+    @OneToOne
+    @JoinColumn(name = "app_user_id")
+    @JsonIgnoreProperties("jobProvider")
+    private AppUser appUser;
 
     public JobProvider(String name, String description, Location location) {
         this.name = name;

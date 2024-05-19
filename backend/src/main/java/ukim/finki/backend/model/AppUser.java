@@ -1,5 +1,6 @@
 package ukim.finki.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,10 @@ public class AppUser implements UserDetails {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("appUser")
+    private JobProvider jobProvider;
 
     public AppUser(String username, String email, String password, String phoneNumber) {
         this.username = username;

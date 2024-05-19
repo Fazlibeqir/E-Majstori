@@ -6,8 +6,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ukim.finki.backend.configs.JWTUtils;
 import ukim.finki.backend.model.AppUser;
+import ukim.finki.backend.model.JobProvider;
 import ukim.finki.backend.model.dto.ReqRes;
 import ukim.finki.backend.repository.AppUserRepository;
+import ukim.finki.backend.repository.JobProviderRepository;
 import ukim.finki.backend.service.AuthService;
 
 import java.util.HashMap;
@@ -18,12 +20,15 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
+    private final JobProviderRepository jobProviderRepository;
+
     public AuthServiceImpl(AppUserRepository appUserRepository, JWTUtils jwtUtils,
-                           PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+                           PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JobProviderRepository jobProviderRepository) {
         this.appUserRepository = appUserRepository;
         this.jwtUtils = jwtUtils;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.jobProviderRepository = jobProviderRepository;
     }
 
     @Override
@@ -37,7 +42,13 @@ public class AuthServiceImpl implements AuthService {
             ourUsers.setFirstName(registrationRequest.getFirstName());
             ourUsers.setLastName(registrationRequest.getLastName());
             ourUsers.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+            JobProvider jobProvider = new JobProvider();
             AppUser ourUserResult = appUserRepository.save(ourUsers);
+            jobProvider.setAppUser(ourUserResult);
+            jobProvider.setName(ourUserResult.getFirstName() + " " + ourUserResult.getLastName());
+            jobProviderRepository.save(jobProvider);
+            ourUserResult.setJobProvider(jobProviderRepository.save(jobProvider));
+            appUserRepository.save(ourUserResult);
             if (ourUserResult.getId()>0) {
                 resp.setAppUser(ourUserResult);
                 resp.setMessage("User Saved Successfully");

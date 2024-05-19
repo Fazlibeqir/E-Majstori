@@ -9,6 +9,8 @@ public class AppUserDTO {
     private String password;
     private String phoneNumber;
 
+    private Long jobProviderId;
+
     public AppUserDTO() {
     }
 
