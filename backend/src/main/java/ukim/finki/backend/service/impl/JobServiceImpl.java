@@ -69,5 +69,6 @@ public class JobServiceImpl implements JobService {
         job.setGrade(new_grade);
         job.setTotal_grades(total_grades);
         job.setNumber_reviews(total_number_reviews);
+        jobRepository.save(job);
     }
 }
