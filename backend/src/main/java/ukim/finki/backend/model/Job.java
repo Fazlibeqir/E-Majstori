@@ -25,16 +25,16 @@ public class Job {
     private String description;
 
     @Column(name = "price", nullable = false)
-    private double price;
+    private Double price;
 
     @Column(name = "grade")
-    private double grade;
+    private Double grade;
 
     @Column(name = "total_grades")
-    private double total_grades;
+    private Double total_grades;
 
     @Column(name = "number_reviews")
-    private int number_reviews;
+    private Integer number_reviews;
 
     @ManyToOne
     @JsonIgnoreProperties("jobsOffered")
