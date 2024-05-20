@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Table(name = "job_provider")
 @Data
 @NoArgsConstructor
+@ToString(exclude = {"appUser", "jobsOffered"})
 public class JobProvider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

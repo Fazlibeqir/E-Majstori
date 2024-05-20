@@ -2,6 +2,7 @@ package ukim.finki.backend.configs;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +21,8 @@ public class JWTUtils {
 
     public JWTUtils() {
         String secret = "SOMETHING12222222222232131Y28312863812638162";
-        byte[] keyBytes = Base64.getDecoder().decode(secret.getBytes(StandardCharsets.UTF_8));
-        this.KEY = new SecretKeySpec(keyBytes, "HmacSHA256");
+        byte[] keyBytes = Base64.getDecoder().decode(secret);
+        this.KEY = Keys.hmacShaKeyFor(keyBytes);
     }
     public String generateToken(UserDetails userDetails){
         return Jwts.builder()

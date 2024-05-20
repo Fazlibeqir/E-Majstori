@@ -66,8 +66,22 @@ public class AuthServiceImpl implements AuthService {
         ReqRes response = new ReqRes();
 
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signingRequest.getEmail(),signingRequest.getPassword()));
-            AppUser user = appUserRepository.findByEmail(signingRequest.getEmail()).orElseThrow();
+            AppUser user=null;
+            if(signingRequest.getIdentifier()!=null && !signingRequest.getIdentifier().isEmpty()) {
+                if (signingRequest.getIdentifier().contains("@")) {
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signingRequest.getIdentifier(), signingRequest.getPassword()));
+                    user = appUserRepository.findByEmail(signingRequest.getIdentifier()).orElseThrow(()->
+                            new Exception("User with email: "+signingRequest.getIdentifier()+" not found"));
+
+                }else {
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signingRequest.getIdentifier(), signingRequest.getPassword()));
+                    user = appUserRepository.findByUsername(signingRequest.getIdentifier()).orElseThrow(()->
+                            new Exception("User with username: "+signingRequest.getIdentifier()+" not found"));
+
+                }
+            }else{
+                throw  new IllegalArgumentException("Username or email is required");
+            }
             System.out.println("USER IS: "+ user);//TODO Remove this line
             String jwt = jwtUtils.generateToken(user);
             String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
@@ -87,7 +101,7 @@ public class AuthServiceImpl implements AuthService {
     public ReqRes refreshToken(ReqRes refreshTokenRequest) {
         ReqRes response = new ReqRes();
         String ourEmail = jwtUtils.extractUsername(refreshTokenRequest.getToken());
-        AppUser users = appUserRepository.findByEmail(ourEmail).orElseThrow();
+        AppUser users = appUserRepository.findByUsername(ourEmail).orElseThrow();
         if (jwtUtils.isTokenValid(refreshTokenRequest.getToken(), users)) {
             String jwt = jwtUtils.generateToken(users);
             response.setStatusCode(200);
