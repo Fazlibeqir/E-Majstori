@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
             JobProvider jobProvider = new JobProvider();
             AppUser ourUserResult = appUserRepository.save(ourUsers);
             jobProvider.setAppUser(ourUserResult);
-            jobProvider.setName(ourUserResult.getFirstName() + " " + ourUserResult.getLastName());
+            jobProvider.setName(ourUserResult.getUsername());
             jobProviderRepository.save(jobProvider);
             ourUserResult.setJobProvider(jobProviderRepository.save(jobProvider));
             appUserRepository.save(ourUserResult);
@@ -82,9 +82,9 @@ public class AuthServiceImpl implements AuthService {
             }else{
                 throw  new IllegalArgumentException("Username or email is required");
             }
-            System.out.println("USER IS: "+ user);//TODO Remove this line
             String jwt = jwtUtils.generateToken(user);
             String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
+            response.setAppUser(user);
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRefreshToken(refreshToken);
