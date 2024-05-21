@@ -1,5 +1,6 @@
 package ukim.finki.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -18,7 +19,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "user_type")
 @Data
 @NoArgsConstructor
-@ToString(exclude = "jobProvider")
+@ToString(exclude = {"jobProvider", "password"})
 public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +38,7 @@ public class AppUser implements UserDetails {
     private String email;
 
     @Column(name = "password",nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(name = "phone_number")

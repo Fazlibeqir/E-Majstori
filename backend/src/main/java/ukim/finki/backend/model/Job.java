@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import ukim.finki.backend.model.relations.JobCategory;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "job")
 @Data
 @NoArgsConstructor
+@ToString(exclude = {"jobProvider", "category"})
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

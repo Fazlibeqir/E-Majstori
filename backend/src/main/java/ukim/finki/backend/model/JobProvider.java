@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "job_provider")
 @Data
 @NoArgsConstructor
-@ToString(exclude = {"appUser", "jobsOffered"})
+@ToString(exclude = {"location","appUser", "jobsOffered"})
 public class JobProvider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package ukim.finki.backend.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ukim.finki.backend.model.Category;
@@ -35,32 +36,51 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         this.jobRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public Job create(JobDTO jobDTO) {
         JobProvider jobProvider = jobProviderService.findById(jobDTO.getJobProviderId());
-        List<JobCategory> category = Collections.singletonList((JobCategory) jobDTO.getCategoryId().stream().map(categoryService::findById).collect(Collectors.toList()));
-        Job job = new Job(jobDTO.getTitle(), jobDTO.getDescription(), jobDTO.getPrice(), jobProvider, category);
-        return jobRepository.save(job);
+        List<Category> categories= jobDTO.getCategoryId().stream()
+                .map(categoryService::findById)
+                .collect(Collectors.toList());
+
+        Job job = new Job(jobDTO.getTitle(), jobDTO.getDescription(), jobDTO.getPrice(), jobProvider, null);
+        Job savedJob = jobRepository.save(job);
+
+        List<JobCategory> jobCategories = categories.stream()
+                .map(category -> new JobCategory(savedJob, category))
+                .collect(Collectors.toList());
+        savedJob.setCategory(jobCategories);
+
+        return jobRepository.save(savedJob);
     }
 
     @Override
+    @Transactional
     public Job update(Long id, JobDTO jobDTO) {
         Job job = this.findById(id);
-        List<JobCategory> category = Collections.singletonList((JobCategory) jobDTO.getCategoryId().stream().map(categoryService::findById).collect(Collectors.toList()));
         JobProvider jobProvider = jobProviderService.findById(jobDTO.getJobProviderId());
+        List<Category> categories = jobDTO.getCategoryId().stream()
+                .map(categoryService::findById)
+                .collect(Collectors.toList());
         job.setTitle(jobDTO.getTitle());
         job.setDescription(jobDTO.getDescription());
         job.setPrice(jobDTO.getPrice());
         job.setJobProvider(jobProvider);
-        job.setCategory(category);
+        List<JobCategory> jobCategories = categories.stream()
+                .map(category -> new JobCategory(job,category))
+                .collect(Collectors.toList());
+        job.setCategory(jobCategories);
         return jobRepository.save(job);
     }
 
     @Override
+    @Transactional
     public void giveGrade(Long id, Double grade) {
         Job job = this.findById(id);
         double total_grades = job.getTotal_grades()+grade;
