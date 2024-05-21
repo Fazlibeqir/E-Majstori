@@ -19,7 +19,7 @@ public class Category {
     @Column(name = "name",nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Job> jobs;
 
     public Category(String name) {
