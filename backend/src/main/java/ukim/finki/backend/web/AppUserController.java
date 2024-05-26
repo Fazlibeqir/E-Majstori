@@ -33,9 +33,6 @@ public class AppUserController {
 
     @PostMapping("/add-user")
     public ResponseEntity<AppUser> addUser(@RequestBody AppUserDTO appUserDTO){
-        if(appUserDTO == null){
-            return ResponseEntity.badRequest().build();
-        }
         if(appUserDTO.getEmail() == null || appUserDTO.getUsername() == null || appUserDTO.getPassword() == null){
             return  ResponseEntity.badRequest().build();
         }
