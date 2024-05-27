@@ -39,6 +39,7 @@ public class Job {
     private Integer number_reviews;
 
     @ManyToOne
+    @JoinColumn(name = "jobProvider_id", referencedColumnName = "id")
     @JsonIgnoreProperties("jobsOffered")
     private JobProvider jobProvider;
 

@@ -33,6 +33,7 @@ public class JobProvider {
     private List<Job> jobsOffered;
 
     @ManyToOne
+    @JoinColumn(name = "location_id")
     @JsonIgnoreProperties("jobProviders")
     private Location location;
 
