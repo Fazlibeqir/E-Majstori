@@ -15,7 +15,7 @@ public class CorsConfig{
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(List.of("https://e-majstor-g10qj2bob-ivana-andreevskas-projects.vercel.app","https://e-majstor-fe.vercel.app"));
+        configuration.setAllowedOrigins(List.of("https://e-majstor-g10qj2bob-ivana-andreevskas-projects.vercel.app","https://e-majstor-fe.vercel.app","http://localhost:5173"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         source.registerCorsConfiguration("/**", configuration);
